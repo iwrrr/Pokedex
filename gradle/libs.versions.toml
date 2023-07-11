@@ -67,7 +67,7 @@ android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", ver
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlinAndroid" }
 
 # Accompanist
-placeholder-material = { group = "com.google.accompanist", name = "accompanist-placeholder-material", version.ref = "accompanist" }
+material-placeholder = { group = "com.google.accompanist", name = "accompanist-placeholder-material", version.ref = "accompanist" }
 systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 navigation-animation = { group = "com.google.accompanist", name = "accompanist-navigation-animation", version.ref = "accompanist" }
 permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
