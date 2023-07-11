@@ -1,5 +1,5 @@
 plugins {
-    id("android.app")
+    id("android.lib")
     id("android.hilt")
 }
 
@@ -9,5 +9,5 @@ android {
 
 dependencies {
     implementation(project(":core:designsystem"))
-    implementation(project(":feature:pokedex"))
+    implementation(project(":core:domain"))
 }

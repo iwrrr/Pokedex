@@ -1,7 +1,7 @@
 package com.hwaryun.pokedex
 
 import android.app.Application
-import com.hwaryun.pokedex.other.DebugTree
+import com.hwaryun.pokedex.utils.DebugTree
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 

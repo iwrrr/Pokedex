@@ -54,6 +54,7 @@ suspend fun <T> proceed(block: suspend () -> T): DataResult<T> {
     return try {
         DataResult.Success(block.invoke())
     } catch (throwable: Throwable) {
+        throwable.printStackTrace()
         DataResult.Failure(throwable)
     }
 }

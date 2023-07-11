@@ -1,4 +1,4 @@
-package com.hwaryun.pokedex.ui.theme
+package com.hwaryun.designsystem
 
 import androidx.compose.ui.graphics.Color
 

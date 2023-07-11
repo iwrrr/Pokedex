@@ -1,4 +1,4 @@
-package com.hwaryun.pokedex.other
+package com.hwaryun.pokedex.utils
 
 import timber.log.Timber
 
