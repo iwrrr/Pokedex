@@ -1,4 +1,4 @@
-package com.hwaryun.domain
+package com.hwaryun.domain.model
 
 data class Pokemon(
   var page: Int = 0,

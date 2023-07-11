@@ -10,4 +10,5 @@ android {
 dependencies {
     api(project(":core:common"))
     implementation(project(":core:data"))
+    implementation(libs.converter.gson)
 }

@@ -1,4 +1,4 @@
-package com.hwaryun.pokedex.navigation
+package com.hwaryun.pokemon_detail.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
@@ -8,15 +8,23 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.composable
-import com.hwaryun.pokedex.PokedexRoute
+import com.hwaryun.pokemon_detail.PokemonDetailRoute
 
-const val pokedexRoute = "pokedex_route"
+const val POKEMON_NAME = "name"
+const val pokemonDetailsRoute = "pokemon_details_route/{$POKEMON_NAME}"
+
+fun NavController.navigateToPokemonDetails(name: String, navOptions: NavOptions? = null) {
+    this.navigate("pokemon_details_route/$name", navOptions)
+}
 
 @OptIn(ExperimentalAnimationApi::class)
-fun NavGraphBuilder.pokedexScreen(
-    navigateToPokemonDetailsScreen: (String) -> Unit,
+fun NavGraphBuilder.pokemonDetailsScreen(
     enterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? = {
         fadeIn(tween(300))
     },
@@ -31,12 +39,15 @@ fun NavGraphBuilder.pokedexScreen(
     },
 ) {
     composable(
-        route = pokedexRoute,
+        route = pokemonDetailsRoute,
+        arguments = listOf(
+            navArgument(POKEMON_NAME) { type = NavType.StringType }
+        ),
         enterTransition = enterTransition,
         exitTransition = exitTransition,
         popEnterTransition = popEnterTransition,
         popExitTransition = popExitTransition,
     ) {
-        PokedexRoute(navigateToPokemonDetailsScreen = navigateToPokemonDetailsScreen)
+        PokemonDetailRoute()
     }
 }

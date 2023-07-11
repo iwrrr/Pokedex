@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hwaryun.designsystem.PokedexTheme
-import com.hwaryun.domain.Pokemon
+import com.hwaryun.domain.model.Pokemon
 
 @Composable
 internal fun PokemonGrid(

@@ -15,13 +15,15 @@ import com.hwaryun.pokedex.components.PokemonGrid
 
 @Composable
 internal fun PokedexRoute(
+    navigateToPokemonDetailsScreen: (String) -> Unit,
     viewModel: PokedexViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     PokedexScreen(
         state = state,
-        loadPokemonListByPage = viewModel::loadPokemonListByPage
+        loadPokemonListByPage = viewModel::loadPokemonListByPage,
+        navigateToPokemonDetailsScreen = navigateToPokemonDetailsScreen
     )
 }
 
@@ -30,6 +32,7 @@ internal fun PokedexRoute(
 private fun PokedexScreen(
     state: PokedexState,
     loadPokemonListByPage: (Int, Boolean) -> Unit,
+    navigateToPokemonDetailsScreen: (String) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.statusBarsPadding(),
@@ -41,7 +44,7 @@ private fun PokedexScreen(
         PokemonGrid(
             pokemonList = state.pokemonList,
             isLoading = !state.isLastPageLoaded,
-            onPokemonClicked = {}
+            onPokemonClicked = navigateToPokemonDetailsScreen
         ) {
             if (state.pokemonList.isEmpty()) return@PokemonGrid
 
@@ -56,7 +59,9 @@ private fun PokedexScreen(
 private fun DefaultPreview() {
     PokedexTheme {
         PokedexScreen(
-            state = PokedexState()
-        ) { _, _ -> }
+            state = PokedexState(),
+            loadPokemonListByPage = { _, _ -> },
+            navigateToPokemonDetailsScreen = {}
+        )
     }
 }

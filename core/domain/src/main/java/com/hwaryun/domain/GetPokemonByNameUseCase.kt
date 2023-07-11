@@ -5,24 +5,24 @@ import com.hwaryun.common.di.DispatcherProvider
 import com.hwaryun.common.domain.FlowUseCase
 import com.hwaryun.common.ext.suspendSubscribe
 import com.hwaryun.data.repository.PokemonRepository
-import com.hwaryun.domain.model.Pokemon
+import com.hwaryun.domain.model.PokemonInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetPokemonListUseCase @Inject constructor(
+class GetPokemonByNameUseCase @Inject constructor(
     private val repository: PokemonRepository,
     dispatcherProvider: DispatcherProvider
-) : FlowUseCase<Int, UiResult<List<Pokemon>>>(dispatcherProvider.io) {
+) : FlowUseCase<String, UiResult<PokemonInfo>>(dispatcherProvider.io) {
 
-    override fun buildFlowUseCase(param: Int?): Flow<UiResult<List<Pokemon>>> = flow {
+    override fun buildFlowUseCase(param: String?): Flow<UiResult<PokemonInfo>> = flow {
         emit(UiResult.Loading())
-        param?.let { page ->
-            repository.getPokemonList(page).collect { result ->
+        param?.let { name ->
+            repository.getPokemonByName(name).collect { result ->
                 result.suspendSubscribe(
                     doOnSuccess = {
-                        result.value?.let { pokemons ->
-                            emit(UiResult.Success(pokemons.map { it.toPokemon(page) }))
+                        result.value?.let { pokemon ->
+                            emit(UiResult.Success(pokemon.toPokemonInfo()))
                         }
                     },
                     doOnError = {

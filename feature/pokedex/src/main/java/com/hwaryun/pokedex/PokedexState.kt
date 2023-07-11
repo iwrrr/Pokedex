@@ -1,6 +1,6 @@
 package com.hwaryun.pokedex
 
-import com.hwaryun.domain.Pokemon
+import com.hwaryun.domain.model.Pokemon
 
 data class PokedexState(
     val pokemonList: List<Pokemon> = emptyList(),

@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.hwaryun.designsystem.PokedexTheme
-import com.hwaryun.domain.Pokemon
+import com.hwaryun.domain.model.Pokemon
 
 @Composable
 internal fun PokemonItem(
