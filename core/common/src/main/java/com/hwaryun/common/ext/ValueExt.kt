@@ -69,3 +69,9 @@ fun <T> List<T>.mapWhenNotEmpty(callback: (T) -> Unit) {
         }
     }
 }
+
+fun String.capitalizeAndRemoveHyphen(): String {
+    return split('-').joinToString(" ") { s ->
+        s.replaceFirstChar { it.uppercaseChar() }
+    }
+}

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Pokedex</string>
+    <string name="move_name_label">Move Name</string>
+    <string name="move_power_label">Power</string>
+    <string name="move_accurary_label">Acc</string>
+    <string name="move_power_point_label">PP</string>
+    <string name="move_type_label">Type</string>
+</resources>

@@ -11,6 +11,7 @@ data class PokemonInfoEntity(
     val height: Long,
     val weight: Long,
     val experience: Long,
+    val moves: String,
     val types: String,
     val stats: String,
     val isCatched: Boolean = false

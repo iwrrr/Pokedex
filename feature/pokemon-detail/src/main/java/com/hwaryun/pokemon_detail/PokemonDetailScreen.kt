@@ -27,12 +27,16 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hwaryun.designsystem.PokedexTheme
+import com.hwaryun.designsystem.components.TabItem
+import com.hwaryun.designsystem.components.Tabs
+import com.hwaryun.domain.model.Info
 import com.hwaryun.domain.model.PokemonInfo
 import com.hwaryun.pokemon_detail.components.AbilityRow
 import com.hwaryun.pokemon_detail.components.AppBar
 import com.hwaryun.pokemon_detail.components.CatchDialog
 import com.hwaryun.pokemon_detail.components.PokemonImage
 import com.hwaryun.pokemon_detail.components.PokemonInfos
+import com.hwaryun.pokemon_detail.components.PokemonMoves
 import com.hwaryun.pokemon_detail.components.PokemonStats
 import com.hwaryun.pokemon_detail.components.ProgressDialog
 
@@ -144,11 +148,22 @@ private fun PokemonDetailScreen(
                     }
 
                     item("stats") {
-                        PokemonStats(
-                            pokemonInfo = pokemonInfo,
-                            modifier = Modifier
-                                .padding(top = 12.dp)
-                                .fillMaxWidth(.9f)
+                        Tabs(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            tabItems = listOf(
+                                TabItem(
+                                    title = "Stats",
+                                    screen = {
+                                        PokemonStats(pokemonInfo = pokemonInfo)
+                                    },
+                                ),
+                                TabItem(
+                                    title = "Moves",
+                                    screen = {
+                                        PokemonMoves(pokemonInfo = pokemonInfo)
+                                    },
+                                ),
+                            )
                         )
                     }
 
@@ -204,15 +219,15 @@ private fun DefaultPreview() {
                     height = 1,
                     weight = 1,
                     experience = 1,
-                    types = listOf(PokemonInfo.TypeResponse(1, PokemonInfo.Type("Water"))),
-                    stats = listOf(PokemonInfo.StatsResponse(1, PokemonInfo.Stat("Hp"))),
+                    moves = listOf(),
+                    types = listOf(Info(name = "Water", id = 1)),
+                    stats = listOf(PokemonInfo.Stats(1, Info("Hp"))),
                     isCatched = false,
                 )
             ),
             catchState = CatchPokemonState(),
             onCatchOrReleasePokemon = { _, _ -> },
-            dismissDialog = {},
-            popBackStack = {}
-        )
+            dismissDialog = {}
+        ) {}
     }
 }

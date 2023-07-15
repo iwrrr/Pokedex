@@ -7,21 +7,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hwaryun.designsystem.utils.PokemonAbilityUtils
-import com.hwaryun.domain.model.PokemonInfo
+import com.hwaryun.domain.model.Info
 
 @Composable
 internal fun AbilityRow(
-    types: List<PokemonInfo.TypeResponse>,
+    types: List<Info>,
     modifier: Modifier = Modifier,
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier,
     ) {
-        items(types, key = { it.slot }) { typeResponse ->
+        items(types, key = { it.id }) { typeResponse ->
             AbilityItem(
-                name = typeResponse.type.name,
-                containerColor = PokemonAbilityUtils.getAbilityColor(typeResponse.type.name)
+                name = typeResponse.name,
+                containerColor = PokemonAbilityUtils.getAbilityColor(typeResponse.name)
             )
         }
     }

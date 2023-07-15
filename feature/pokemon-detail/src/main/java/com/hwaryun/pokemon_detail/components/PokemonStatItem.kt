@@ -26,7 +26,7 @@ import kotlin.math.roundToInt
 
 @Composable
 internal fun PokemonStatItem(
-    statResponse: PokemonInfo.StatsResponse,
+    statResponse: PokemonInfo.Stats,
     modifier: Modifier = Modifier
 ) {
     val animationProgress = remember {
@@ -39,7 +39,7 @@ internal fun PokemonStatItem(
         animationProgress.animateTo(
             targetValue = 1f,
             animationSpec = tween(
-                durationMillis = 8 * statResponse.base_stat,
+                durationMillis = 8 * statResponse.value,
                 easing = LinearEasing
             )
         )
@@ -57,7 +57,7 @@ internal fun PokemonStatItem(
         )
 
         Text(
-            text = "${(statResponse.base_stat * animationProgress.value).roundToInt()}",
+            text = "${(statResponse.value * animationProgress.value).roundToInt()}",
             color = MaterialTheme.colors.onBackground,
             style = MaterialTheme.typography.body1.copy(
                 fontWeight = FontWeight.Bold
@@ -65,7 +65,7 @@ internal fun PokemonStatItem(
             modifier = Modifier.weight(.2f)
         )
 
-        val progress = statResponse.base_stat.toFloat() / statResponse.maxValue.toFloat()
+        val progress = statResponse.value.toFloat() / statResponse.maxValue.toFloat()
         val animatedProgress = progress * animationProgress.value
 
         val progressColor = if (progress >= .5f) Green300 else Yellow400

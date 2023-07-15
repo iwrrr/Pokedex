@@ -7,6 +7,7 @@ import com.hwaryun.common.ConnectivityException
 import com.hwaryun.common.ext.subscribe
 import com.hwaryun.data.repository.PokemonRepository
 import com.hwaryun.domain.GetPokemonByNameUseCase
+import com.hwaryun.domain.GetPokemonMoveUseCase
 import com.hwaryun.pokemon_detail.navigation.POKEMON_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -15,12 +16,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class PokemonDetailViewModel @Inject constructor(
     private val getPokemonByNameUseCase: GetPokemonByNameUseCase,
+    private val getPokemonMoveUseCase: GetPokemonMoveUseCase,
     private val pokemonRepository: PokemonRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -90,7 +91,6 @@ class PokemonDetailViewModel @Inject constructor(
 
     fun catchOrReleasePokemon(name: String, isCatched: Boolean) {
         viewModelScope.launch {
-            Timber.d("DEBUG ====> $isCatched")
             if (!isCatched) {
                 pokemonRepository.catchOrReleasePokemon(name, false).collect()
                 _catchState.update { state ->
@@ -110,12 +110,12 @@ class PokemonDetailViewModel @Inject constructor(
             delay(1000L)
 
             val chance = (0..100).random()
-            if (chance >= 50) pokemonRepository.catchOrReleasePokemon(name, isCatched).collect()
+            if (chance >= 50) pokemonRepository.catchOrReleasePokemon(name, true).collect()
 
             _catchState.update { state ->
                 state.copy(
                     showDialog = true,
-                    isCatched = chance >= 50 && isCatched,
+                    isCatched = chance >= 50,
                     isLoading = false,
                     failed = chance <= 50
                 )

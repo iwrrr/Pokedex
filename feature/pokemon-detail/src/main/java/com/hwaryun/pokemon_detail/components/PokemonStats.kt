@@ -17,7 +17,7 @@ internal fun PokemonStats(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 16.dp)
+            .padding(horizontal = 8.dp, vertical = 16.dp)
     ) {
         pokemonInfo.stats.forEach { statResponse ->
             key(statResponse.stat.name) {

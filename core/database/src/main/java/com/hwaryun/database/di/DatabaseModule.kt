@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.hwaryun.database.PokedexDatabase
 import com.hwaryun.database.PokemonDao
 import com.hwaryun.database.PokemonInfoDao
+import com.hwaryun.database.PokemonMoveDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,5 +36,11 @@ object DatabaseModule {
     @Singleton
     fun providePokemonInfoDao(database: PokedexDatabase): PokemonInfoDao {
         return database.pokemonInfoDao
+    }
+
+    @Provides
+    @Singleton
+    fun providePokemonMoveDao(database: PokedexDatabase): PokemonMoveDao {
+        return database.pokemonMoveDao
     }
 }
