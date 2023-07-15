@@ -1,4 +1,4 @@
-package com.hwaryun.pokedex.navigation
+package com.hwaryun.pokemon_catched.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
@@ -8,15 +8,21 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import com.google.accompanist.navigation.animation.composable
-import com.hwaryun.pokedex.PokedexRoute
+import com.hwaryun.pokemon_catched.CatchedPokemonRoute
 
-const val pokedexRoute = "pokedex_route"
+const val catchedPokemonsRoute = "catched_pokemons_route"
+
+fun NavController.navigateToCatchedPokemons(navOptions: NavOptions? = null) {
+    this.navigate(catchedPokemonsRoute, navOptions)
+}
 
 @OptIn(ExperimentalAnimationApi::class)
-fun NavGraphBuilder.pokedexScreen(
-    navigateToCatchedPokemonsScreen: () -> Unit,
+fun NavGraphBuilder.catchedPokemonsScreen(
+    popBackStack: () -> Unit,
     navigateToPokemonDetailsScreen: (String) -> Unit,
     enterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? = {
         fadeIn(tween(300))
@@ -32,14 +38,14 @@ fun NavGraphBuilder.pokedexScreen(
     },
 ) {
     composable(
-        route = pokedexRoute,
+        route = catchedPokemonsRoute,
         enterTransition = enterTransition,
         exitTransition = exitTransition,
         popEnterTransition = popEnterTransition,
         popExitTransition = popExitTransition,
     ) {
-        PokedexRoute(
-            navigateToCatchedPokemonsScreen = navigateToCatchedPokemonsScreen,
+        CatchedPokemonRoute(
+            popBackStack = popBackStack,
             navigateToPokemonDetailsScreen = navigateToPokemonDetailsScreen
         )
     }

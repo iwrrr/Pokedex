@@ -1,63 +1,55 @@
-package com.hwaryun.pokedex
+package com.hwaryun.pokemon_catched
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hwaryun.designsystem.PokedexTheme
-import com.hwaryun.pokedex.components.AppBar
-import com.hwaryun.pokedex.components.PokemonGrid
+import com.hwaryun.pokemon_catched.components.AppBar
+import com.hwaryun.pokemon_catched.components.PokemonGrid
 
 @Composable
-internal fun PokedexRoute(
-    navigateToCatchedPokemonsScreen: () -> Unit,
+internal fun CatchedPokemonRoute(
+    popBackStack: () -> Unit,
     navigateToPokemonDetailsScreen: (String) -> Unit,
-    viewModel: PokedexViewModel = hiltViewModel()
+    viewModel: CatchedPokemonViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    PokedexScreen(
+    LaunchedEffect(true) {
+        viewModel.init()
+    }
+
+    CatchedPokemonScreen(
         state = state,
-        loadPokemonListByPage = viewModel::loadPokemonListByPage,
-        navigateToCatchedPokemonsScreen = navigateToCatchedPokemonsScreen,
+        popBackStack = popBackStack,
         navigateToPokemonDetailsScreen = navigateToPokemonDetailsScreen
     )
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-private fun PokedexScreen(
-    state: PokedexState,
-    loadPokemonListByPage: (Int, Boolean) -> Unit,
-    navigateToCatchedPokemonsScreen: () -> Unit,
+private fun CatchedPokemonScreen(
+    state: CatchedPokemonState,
+    popBackStack: () -> Unit,
     navigateToPokemonDetailsScreen: (String) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.statusBarsPadding(),
         topBar = {
-            AppBar(
-                title = "Pokedex",
-                subtitle = "What Pokémon are you looking for?",
-                onPokeballClick = navigateToCatchedPokemonsScreen
-            )
+            AppBar(title = "Your Pokémon List", onNavigationClick = popBackStack)
         }
     ) {
-
         PokemonGrid(
             pokemonList = state.pokemonList,
-            isLoading = !state.isLastPageLoaded,
             onPokemonClicked = navigateToPokemonDetailsScreen
-        ) {
-            if (state.pokemonList.isEmpty()) return@PokemonGrid
-
-            val nextPage = state.pokemonList.last().page + 1
-            loadPokemonListByPage(nextPage, state.isLastPageLoaded)
-        }
+        )
     }
 }
 
@@ -65,10 +57,9 @@ private fun PokedexScreen(
 @Composable
 private fun DefaultPreview() {
     PokedexTheme {
-        PokedexScreen(
-            state = PokedexState(),
-            loadPokemonListByPage = { _, _ -> },
-            navigateToCatchedPokemonsScreen = {},
+        CatchedPokemonScreen(
+            state = CatchedPokemonState(),
+            popBackStack = {},
             navigateToPokemonDetailsScreen = {}
         )
     }

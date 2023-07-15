@@ -5,6 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.hwaryun.pokedex.MainAppState
+import com.hwaryun.pokemon_catched.navigation.catchedPokemonsScreen
+import com.hwaryun.pokemon_catched.navigation.navigateToCatchedPokemons
 import com.hwaryun.pokemon_detail.navigation.navigateToPokemonDetails
 import com.hwaryun.pokemon_detail.navigation.pokemonDetailsScreen
 
@@ -23,8 +25,15 @@ fun MainAppNavHost(
         startDestination = startDestination
     ) {
         pokedexScreen(
+            navigateToCatchedPokemonsScreen = navController::navigateToCatchedPokemons,
             navigateToPokemonDetailsScreen = navController::navigateToPokemonDetails
         )
-        pokemonDetailsScreen()
+        catchedPokemonsScreen(
+            popBackStack = navController::popBackStack,
+            navigateToPokemonDetailsScreen = navController::navigateToPokemonDetails
+        )
+        pokemonDetailsScreen(
+            popBackStack = navController::popBackStack
+        )
     }
 }

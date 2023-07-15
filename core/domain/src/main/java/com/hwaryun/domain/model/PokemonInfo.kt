@@ -8,7 +8,7 @@ data class PokemonInfo(
   val experience: Long,
   val types: List<TypeResponse>,
   val stats: List<StatsResponse>,
-  val isFavorite: Boolean = false
+  val isCatched: Boolean = false
 ) {
   val idString
     get() = when (id.toString().length) {

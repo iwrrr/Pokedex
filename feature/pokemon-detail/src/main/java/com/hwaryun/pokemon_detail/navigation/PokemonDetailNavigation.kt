@@ -25,6 +25,7 @@ fun NavController.navigateToPokemonDetails(name: String, navOptions: NavOptions?
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.pokemonDetailsScreen(
+    popBackStack: () -> Unit,
     enterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? = {
         fadeIn(tween(300))
     },
@@ -48,6 +49,6 @@ fun NavGraphBuilder.pokemonDetailsScreen(
         popEnterTransition = popEnterTransition,
         popExitTransition = popExitTransition,
     ) {
-        PokemonDetailRoute()
+        PokemonDetailRoute(popBackStack = popBackStack)
     }
 }

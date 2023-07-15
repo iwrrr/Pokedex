@@ -1,6 +1,7 @@
 package com.hwaryun.data
 
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.hwaryun.database.model.PokemonEntity
 import com.hwaryun.database.model.PokemonInfoEntity
 import com.hwaryun.network.model.PokemonDto
@@ -25,8 +26,8 @@ fun PokemonInfoDto.toPokemonInfoEntity() = PokemonInfoEntity(
     weight = weight,
     experience = experience,
     types = Gson().toJson(types),
-    stats = Gson().toJson(stats),
-    isFavorite = if (isFavorite) 1 else 0
+    stats = Gson().toJson(stats, object : TypeToken<List<PokemonInfoDto.StatsResponse>>() {}.type),
+    isCatched = false
 )
 //
 //fun PokemonInfoEntity.toPokemonDto() = PokemonDto(

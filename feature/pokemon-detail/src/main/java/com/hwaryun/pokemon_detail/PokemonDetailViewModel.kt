@@ -5,26 +5,33 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hwaryun.common.ConnectivityException
 import com.hwaryun.common.ext.subscribe
+import com.hwaryun.data.repository.PokemonRepository
 import com.hwaryun.domain.GetPokemonByNameUseCase
 import com.hwaryun.pokemon_detail.navigation.POKEMON_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class PokemonDetailViewModel @Inject constructor(
     private val getPokemonByNameUseCase: GetPokemonByNameUseCase,
+    private val pokemonRepository: PokemonRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val pokemonName = savedStateHandle.get<String>(POKEMON_NAME).orEmpty()
 
-    private val _state: MutableStateFlow<PokemonDetailState> =
-        MutableStateFlow(PokemonDetailState())
+    private val _state = MutableStateFlow(PokemonDetailState())
     val state = _state.asStateFlow()
+
+    private val _catchState = MutableStateFlow(CatchPokemonState())
+    val catchState = _catchState.asStateFlow()
 
     init {
         getPokemonByName(pokemonName)
@@ -46,6 +53,12 @@ class PokemonDetailViewModel @Inject constructor(
                             state.copy(
                                 pokemonInfo = it.value,
                                 isLoading = false,
+                            )
+                        }
+                        _catchState.update { state ->
+                            state.copy(
+                                isCatched = it.value?.isCatched == true,
+                                isLoading = false
                             )
                         }
                     },
@@ -72,6 +85,47 @@ class PokemonDetailViewModel @Inject constructor(
                     }
                 )
             }
+        }
+    }
+
+    fun catchOrReleasePokemon(name: String, isCatched: Boolean) {
+        viewModelScope.launch {
+            Timber.d("DEBUG ====> $isCatched")
+            if (!isCatched) {
+                pokemonRepository.catchOrReleasePokemon(name, false).collect()
+                _catchState.update { state ->
+                    state.copy(
+                        showDialog = true,
+                        isCatched = false
+                    )
+                }
+                return@launch
+            }
+
+            _catchState.update { state ->
+                state.copy(
+                    isLoading = true
+                )
+            }
+            delay(1000L)
+
+            val chance = (0..100).random()
+            if (chance >= 50) pokemonRepository.catchOrReleasePokemon(name, isCatched).collect()
+
+            _catchState.update { state ->
+                state.copy(
+                    showDialog = true,
+                    isCatched = chance >= 50 && isCatched,
+                    isLoading = false,
+                    failed = chance <= 50
+                )
+            }
+        }
+    }
+
+    fun dismissDialog() {
+        _catchState.update { state ->
+            state.copy(showDialog = false)
         }
     }
 }

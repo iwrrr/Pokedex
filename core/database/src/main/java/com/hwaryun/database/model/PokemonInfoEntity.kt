@@ -13,5 +13,5 @@ data class PokemonInfoEntity(
     val experience: Long,
     val types: String,
     val stats: String,
-    val isFavorite: Int = 0
+    val isCatched: Boolean = false
 )

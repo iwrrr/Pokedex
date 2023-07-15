@@ -10,5 +10,6 @@ android {
 dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":feature:pokedex"))
+    implementation(project(":feature:pokemon-catched"))
     implementation(project(":feature:pokemon-detail"))
 }
