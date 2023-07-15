@@ -28,6 +28,7 @@ internal fun CatchedPokemonRoute(
 
     CatchedPokemonScreen(
         state = state,
+        releasePokemon = viewModel::releasePokemon,
         popBackStack = popBackStack,
         navigateToPokemonDetailsScreen = navigateToPokemonDetailsScreen
     )
@@ -37,6 +38,7 @@ internal fun CatchedPokemonRoute(
 @Composable
 private fun CatchedPokemonScreen(
     state: CatchedPokemonState,
+    releasePokemon: (String) -> Unit,
     popBackStack: () -> Unit,
     navigateToPokemonDetailsScreen: (String) -> Unit,
 ) {
@@ -48,6 +50,7 @@ private fun CatchedPokemonScreen(
     ) {
         PokemonGrid(
             pokemonList = state.pokemonList,
+            releasePokemon = releasePokemon,
             onPokemonClicked = navigateToPokemonDetailsScreen
         )
     }
@@ -59,6 +62,7 @@ private fun DefaultPreview() {
     PokedexTheme {
         CatchedPokemonScreen(
             state = CatchedPokemonState(),
+            releasePokemon = {},
             popBackStack = {},
             navigateToPokemonDetailsScreen = {}
         )
